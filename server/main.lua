@@ -56,7 +56,7 @@ function SendDiscordWebhook(source, job1, job1_grade, job2, job2_grade, color)
 	PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = connect}), { ['Content-Type'] = 'application/json' })
 end
 
-local CurrentVersion = '1.0'
+local CurrentVersion = '1.1'
 
 PerformHttpRequest('https://raw.githubusercontent.com/ChemaSanchez/chema_doblejob/master/Version.txt', function(Error, NewestVersion, Header)
     PerformHttpRequest('https://raw.githubusercontent.com/ChemaSanchez/chema_doblejob/master/Version.txt', function(Error, Changes, Header)
