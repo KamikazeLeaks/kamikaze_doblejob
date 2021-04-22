@@ -18,7 +18,7 @@ Citizen.CreateThread(function()
 	ESX.PlayerData = ESX.GetPlayerData()
 end)
 
-RegisterCommand("trabajo", function (src, args, raw)
+RegisterCommand(Config.ChangeJobCommand, function (src, args, raw)
     if timer == 0 and allowCommand then
         TriggerServerEvent('kamikaze_doblejob:getSecondJob')
         timer = 15
