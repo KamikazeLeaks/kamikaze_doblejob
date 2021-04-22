@@ -1,25 +1,25 @@
 ESX = nil
-local webhook = '' -- Poner el link WebHook aqui!
+
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
-RegisterServerEvent('chema_doblejob:getSecondJob')
-AddEventHandler('chema_doblejob:getSecondJob', function()
+RegisterServerEvent('kamikaze_doblejob:getSecondJob')
+AddEventHandler('kamikaze_doblejob:getSecondJob', function()
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
     MySQL.Async.fetchAll('SELECT secondjob, secondjob_grade FROM users WHERE identifier = @identifier', { ['@identifier'] = xPlayer.getIdentifier() }, function(result)
 
         if result[1] ~= nil and result[1].secondjob ~= nil and result[1].secondjob_grade ~= nil then
-                TriggerClientEvent('chema_doblejob:returnSecondJob', _source, result[1].secondjob, result[1].secondjob_grade)
+                TriggerClientEvent('kamikaze_doblejob:returnSecondJob', _source, result[1].secondjob, result[1].secondjob_grade)
         else
             xPlayer.showNotification('Hay un error en la base!')
         end
     end)
 end)
 
-RegisterServerEvent('chema_doblejob:setSecondJob')
-AddEventHandler('chema_doblejob:setSecondJob', function(job1, job1_grade, job2, job2_grade)
+RegisterServerEvent('kamikaze_doblejob:setSecondJob')
+AddEventHandler('kamikaze_doblejob:setSecondJob', function(job1, job1_grade, job2, job2_grade)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
 
@@ -46,34 +46,34 @@ function SendDiscordWebhook(source, job1, job1_grade, job2, job2_grade, color)
 		local connect = {
 			  {
 				  ["color"] = color,
-				  ["title"] = GetPlayerName(source)..', SteamID: '..xPlayer.getIdentifier(),
+				  ["title"] = Config.ServerName ..'RP'..GetPlayerName(source)..', SteamID: '..xPlayer.getIdentifier(),
 				  ["description"] = 'Ha cambiado de **FROM**: '..job1..' con grado: '..job1_grade..' **a**: '..job2.. ' con grado '..job2_grade,
 				  ["footer"] = {
-					  ["text"] = 'Comando /trabajo '..os.date("%Y/%m/%d %X"),
+					  ["text"] = Config.EmbedFooter ..'Comando /'.. Config.ChangeJobCommand .. '..os.date("%Y/%m/%d %X"),
 				  },
 			  }
 		  }
-	PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = connect}), { ['Content-Type'] = 'application/json' })
+	PerformHttpRequest(Config.WebHook, function(err, text, headers) end, 'POST', json.encode({embeds = connect}), { ['Content-Type'] = 'application/json' })
 end
 
 local CurrentVersion = '1.1'
 
-PerformHttpRequest('https://raw.githubusercontent.com/ChemaSanchez/chema_doblejob/master/Version.txt', function(Error, NewestVersion, Header)
-    PerformHttpRequest('https://raw.githubusercontent.com/ChemaSanchez/chema_doblejob/master/Version.txt', function(Error, Changes, Header)
+PerformHttpRequest('https://cdn.elneko.es/scripts/kamikaze/doblejob/version.txt', function(Error, NewestVersion, Header)
+    PerformHttpRequest('https://cdn.elneko.es/scripts/kamikaze/doblejob/version.txt', function(Error, Changes, Header)
         print('^0')
-        print('^6[chema_doblejob]^0 Comprobando actualizaciones...')
+        print('^6[kamikaze_doblejob]^0 Comprobando actualizaciones...')
         print('^0')
-        print('^6[chema_doblejob]^0 Version: ^5' .. CurrentVersion .. '^0')
+        print('^6[kamikaze_doblejob]^0 Version: ^5' .. CurrentVersion .. '^0')
         print('^0')
         if CurrentVersion ~= NewestVersion then
-            print('^6[chema_doblejob]^0 Your script is ^8outdated^0!')
+            print('^6[kamikaze_doblejob]^0 Your script is ^8outdated^0!')
             print('^0')
-            print('^6[chema_doblejob] ^3Nueva Version ^5' .. NewestVersion .. ':^0')
+            print('^6[kamikaze_doblejob] ^3Nueva Version ^5' .. NewestVersion .. ':^0')
             print('^3')
             print('^0')
-            print('^6[chema_doblejob]^0 Tu ^8no tienes^0 la ultima version de ^5chema_doblejob^0. Actualizalo: https://github.com/ChemaSanchez/chema_doblejob/releases/tag/'.. NewestVersion)
+            print('^6[kamikaze_doblejob]^0 Tu ^8no tienes^0 la ultima version de ^5chema_doblejob^0. Actualizalo: https://github.com/ChemaSanchez/chema_doblejob/releases/tag/'.. NewestVersion)
         else
-            print('^6[chema_doblejob]^0 Esta ^2actualizado^0')
+            print('^6[kamikaze_doblejob]^0 Esta ^2actualizado^0')
         end
         print('^0')
     end)
